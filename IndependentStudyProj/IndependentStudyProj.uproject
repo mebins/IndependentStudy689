@@ -1,0 +1,22 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{170F7BB1-4069-BF79-C2C4-D1B39CE94B55}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "IndependentStudyProj",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ModelingToolsEditorMode",
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		}
+	]
+}
