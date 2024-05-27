@@ -10,6 +10,8 @@ USTRUCT(BlueprintType)
 struct FItem
 {
 	GENERATED_BODY()
+	UPROPERTY(BlueprintReadWrite, Category ="Name")
+	FName ItemName = "";
 	UPROPERTY(BlueprintReadWrite, Category ="Health")
 	float HP = 0;
 	UPROPERTY(BlueprintReadWrite, Category = "Mana")
@@ -28,7 +30,14 @@ struct FItem
 	float CritChance = 0;
 	UPROPERTY(BlueprintReadWrite, Category = "Item Info")
 	bool BHasUse = false;
-
+	UPROPERTY(BlueprintReadWrite, Category = "Shop")
+	int ShopCost = 0;
+	UPROPERTY(BlueprintReadWrite, Category = "Shop")
+	float ResaleMultiplier = 1.0;
+	UPROPERTY(BlueprintReadWrite, Category = "Info")
+	FString ItemDescription = "a good item.";
+	UPROPERTY(BlueprintReadWrite, Category = "Info")
+	FString ItemStats = "HP: 0 \n Mana: 0 \n Armor = 0 \n Damage = 0 \n MovementSpeed = 0 \n AttackSpeed = 0 \n AttackRange = 0 \n CritChance = 0";
 };
 
 UCLASS()

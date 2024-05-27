@@ -22,6 +22,9 @@ class AIndependentStudyProjPlayerController : public APlayerController
 public:
 	AIndependentStudyProjPlayerController();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "HUD")
+	void Show_Market(bool show);
+
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float ShortPressThreshold;
