@@ -30,6 +30,7 @@ public:
 	
 	virtual void GetItem(int index);
 	virtual void BuyItem(AItemBase* item);
+	UFUNCTION(BlueprintCallable)
 	virtual void SellItem(AItemBase* item);
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

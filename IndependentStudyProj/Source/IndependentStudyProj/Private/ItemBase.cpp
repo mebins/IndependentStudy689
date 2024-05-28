@@ -26,3 +26,8 @@ void AItemBase::Tick(float DeltaTime)
 
 }
 
+FName AItemBase::GetFriendlyName()
+{	
+	return ItemInfo.ItemName;
+}
+

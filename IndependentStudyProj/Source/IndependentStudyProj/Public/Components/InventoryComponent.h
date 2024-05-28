@@ -15,13 +15,15 @@ struct FItemSlot : public FTableRowBase
 {
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool SlotUsed = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName FriendlyName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool OnCoolDown;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bSelfTarget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<AItemBase> ItemActor;
+	AItemBase* ItemActor;
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -38,7 +40,7 @@ public:
 	TArray<FItemSlot> Items;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 MaxItems = 6; 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintCallable)
 	void RecalculateInventory();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float BonusMaxHP;
@@ -70,7 +72,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	UFUNCTION(BlueprintCallable)
+int32 GiveUnusedItemSlot();
 		
 	
 };

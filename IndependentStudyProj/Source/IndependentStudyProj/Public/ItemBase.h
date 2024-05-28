@@ -28,6 +28,10 @@ struct FItem
 	float AttackRange = 0;
 	UPROPERTY(BlueprintReadWrite, Category = "Damage")
 	float CritChance = 0;
+	UPROPERTY(BlueprintReadWrite, Category = "Regen")
+	float HealthRegen = 0;
+	UPROPERTY(BlueprintReadWrite, Category = "Regen")
+	float ManaRegen = 0;
 	UPROPERTY(BlueprintReadWrite, Category = "Item Info")
 	bool BHasUse = false;
 	UPROPERTY(BlueprintReadWrite, Category = "Shop")
@@ -59,6 +63,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
+	UFUNCTION(BlueprintCallable)
+	FName GetFriendlyName();
 	
 };

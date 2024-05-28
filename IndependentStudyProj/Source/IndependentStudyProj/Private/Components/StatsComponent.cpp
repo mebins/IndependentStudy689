@@ -21,6 +21,9 @@ void UStatsComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
+	Level = 1;
+	MaxXP = MaxXPByLevel[Level - 1];
+	MaxLevel = 18;
 	
 }
 
@@ -31,5 +34,31 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+bool UStatsComponent::AddXP(float XPAmount)
+{
+	if (Level < MaxLevel)
+	{
+		XP += XPAmount;
+		if (XP >= MaxXP) {
+			LevelUp();
+			if (Level == 18)
+			{
+				XP = MaxXP;
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+void UStatsComponent::LevelUp()
+{
+	if (MaxLevel <= Level) return;
+	Level += 1;
+	MaxXP = MaxXPByLevel[Level-1];
+	SkillPoints++;
+	AddXP(0);
 }
 
