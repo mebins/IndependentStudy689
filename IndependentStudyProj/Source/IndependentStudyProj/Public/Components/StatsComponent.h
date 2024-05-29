@@ -39,23 +39,27 @@ class INDEPENDENTSTUDYPROJ_API UStatsComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UStatsComponent();
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Stat Info")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Category = "Stat Info")
 	TArray<FCharacterStats> StatsByLevel;
-	UPROPERTY(BlueprintReadWrite, Category = "Level")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Level")
 	float SkillPoints;
-	UPROPERTY(BlueprintReadWrite, Category = "Level")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Level")
 	int32 Level;
-	UPROPERTY(BlueprintReadWrite, Category = "Level")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Level")
 	int32 MaxLevel;
-	UPROPERTY(BlueprintReadWrite, Category = "Level")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Level")
 	float XP;
-	UPROPERTY(BlueprintReadWrite, Category = "Level")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Level")
 	float MaxXP;
-	UPROPERTY(BlueprintReadWrite, Category = "Health")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Health")
 	float HP;
-	UPROPERTY(BlueprintReadWrite, Category = "Mana")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Health")
+	float MaxHP;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Mana")
+	float MaxMana;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Mana")
 	float Mana;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category ="XP")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Category ="XP")
 	TArray<float> MaxXPByLevel;
 protected:
 	// Called when the game starts
@@ -65,11 +69,23 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+
+
+	UFUNCTION(Server, Reliable)
+	void ServerAddXP(float XPAmount);
+	UFUNCTION(Server, Reliable)
+	void ServerLevelUp();
+
 	UFUNCTION(BlueprintCallable)
-	bool AddXP(float XPAmount);
+	void AddXP(float XPAmount);
+
 	UFUNCTION(BlueprintCallable)
 	void LevelUp();
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 private:
 	AActor* character;
-	
+	UFUNCTION(Server, Reliable)
+	void ComponentInitialize();
 };

@@ -57,6 +57,7 @@ void UInventoryComponent::BeginPlay()
 void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	UpdateItems();
 
 	// ...
 }
@@ -72,5 +73,29 @@ int32 UInventoryComponent::GiveUnusedItemSlot()
 		}
 	}
 	return -1;
+}
+
+void UInventoryComponent::UseItem(int32 index)
+{
+	if (Items[index].SlotUsed && Items[index].ItemActor->ItemInfo.BHasUse)
+	{
+		Items[index].ItemActor->CastItem();
+	}
+}
+
+void UInventoryComponent::UpdateItems()
+{
+	for (int32 i = 0; i < Items.Num(); i++)
+	{
+		if (Items[i].SlotUsed && Items[i].ItemActor->ItemInfo.Consumed)
+		{
+			DestroyItem(i);
+		}
+	}
+}
+void UInventoryComponent::DestroyItem(int32 Index)
+{
+	Items[Index].SlotUsed = false;
+	Items[Index].ItemActor = NULL;
 }
 

@@ -16,7 +16,6 @@ AItemBase::AItemBase()
 void AItemBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -30,4 +29,6 @@ FName AItemBase::GetFriendlyName()
 {	
 	return ItemInfo.ItemName;
 }
+
+
 

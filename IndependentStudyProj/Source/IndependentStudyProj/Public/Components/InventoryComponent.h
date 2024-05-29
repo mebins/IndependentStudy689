@@ -74,6 +74,12 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION(BlueprintCallable)
 int32 GiveUnusedItemSlot();
-		
-	
+
+UFUNCTION(BlueprintCallable)
+void UseItem(int32 index);
+
+UFUNCTION(BlueprintCallable)
+void UpdateItems();
+UFUNCTION(BlueprintCallable)
+void DestroyItem(int32 Index);
 };

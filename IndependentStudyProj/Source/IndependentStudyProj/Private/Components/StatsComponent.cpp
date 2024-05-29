@@ -2,6 +2,7 @@
 
 
 #include "Components/StatsComponent.h"
+#include <Net/UnrealNetwork.h>
 
 
 // Sets default values for this component's properties
@@ -11,6 +12,7 @@ UStatsComponent::UStatsComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 	character = GetOwner();
+	UStatsComponent::SetIsReplicated(true);
 	// ...
 }
 
@@ -21,9 +23,7 @@ void UStatsComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	Level = 1;
-	MaxXP = MaxXPByLevel[Level - 1];
-	MaxLevel = 18;
+	ComponentInitialize_Implementation();
 	
 }
 
@@ -34,31 +34,72 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+
 }
 
-bool UStatsComponent::AddXP(float XPAmount)
+void UStatsComponent::ServerAddXP_Implementation(float XPAmount)
 {
 	if (Level < MaxLevel)
 	{
 		XP += XPAmount;
 		if (XP >= MaxXP) {
-			LevelUp();
+			ServerLevelUp();
 			if (Level == 18)
 			{
 				XP = MaxXP;
 			}
-			return true;
 		}
 	}
-	return false;
+
+}
+
+void UStatsComponent::ServerLevelUp_Implementation()
+{
+	if (MaxLevel <= Level) return;
+	Level += 1;
+	MaxXP = MaxXPByLevel[Level - 1];
+	MaxHP = StatsByLevel[Level].MaxHp;
+	MaxMana = StatsByLevel[Level].MaxMana;
+	SkillPoints++;
+	AddXP(0);
+}
+
+void UStatsComponent::AddXP(float XPAmount)
+{
+	ServerAddXP(XPAmount);
 }
 
 void UStatsComponent::LevelUp()
 {
-	if (MaxLevel <= Level) return;
-	Level += 1;
-	MaxXP = MaxXPByLevel[Level-1];
-	SkillPoints++;
-	AddXP(0);
+	ServerLevelUp();
+}
+
+void UStatsComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	// Call the Super
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	// Add properties to replicated for the derived class
+	DOREPLIFETIME(UStatsComponent, StatsByLevel);
+	DOREPLIFETIME(UStatsComponent, SkillPoints);
+	DOREPLIFETIME(UStatsComponent, Level);
+	DOREPLIFETIME(UStatsComponent, MaxLevel);
+	DOREPLIFETIME(UStatsComponent, XP);
+	DOREPLIFETIME(UStatsComponent, MaxXP);
+	DOREPLIFETIME(UStatsComponent, HP);
+	DOREPLIFETIME(UStatsComponent, MaxHP);
+	DOREPLIFETIME(UStatsComponent, MaxMana);
+	DOREPLIFETIME(UStatsComponent, Mana);
+	DOREPLIFETIME(UStatsComponent, MaxXPByLevel);
+
+}
+
+void UStatsComponent::ComponentInitialize_Implementation()
+{
+	Level = 1;
+	MaxXP = MaxXPByLevel[Level - 1];
+	MaxLevel = 18;
+	MaxHP = StatsByLevel[Level].MaxHp;
+	HP = MaxHP;
 }
 

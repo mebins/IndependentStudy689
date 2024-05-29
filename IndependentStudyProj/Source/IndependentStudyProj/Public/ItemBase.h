@@ -34,6 +34,16 @@ struct FItem
 	float ManaRegen = 0;
 	UPROPERTY(BlueprintReadWrite, Category = "Item Info")
 	bool BHasUse = false;
+	UPROPERTY(BlueprintReadWrite, Category ="Cooldown")
+	float CooldownTime = 0.0;
+	UPROPERTY(BlueprintReadWrite, Category = "Cooldown")
+	bool OnCooldown = false;
+	UPROPERTY(BlueprintReadWrite, Category = "Cooldown")
+	float ActualCoolDown = 0.0;
+	UPROPERTY(BlueprintReadWrite)
+	bool Consumeable = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool Consumed = false;
 	UPROPERTY(BlueprintReadWrite, Category = "Shop")
 	int ShopCost = 0;
 	UPROPERTY(BlueprintReadWrite, Category = "Shop")
@@ -65,5 +75,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FName GetFriendlyName();
-	
+
+	UFUNCTION(BlueprintImplementableEvent)
+    void CastItem();
 };
