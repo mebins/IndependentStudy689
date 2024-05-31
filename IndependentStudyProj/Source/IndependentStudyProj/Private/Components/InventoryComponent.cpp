@@ -11,7 +11,8 @@ UInventoryComponent::UInventoryComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	SetIsReplicatedByDefault(true);
+	character = GetOwner();
+	UInventoryComponent::SetIsReplicatedByDefault(true);
 
 	// ...
 }
@@ -20,6 +21,8 @@ void UInventoryComponent::RecalculateInventory()
 {
 	ServerRecalculateInventory();
 }
+
+
 
 void UInventoryComponent::ServerRecalculateInventory_Implementation()
 {
@@ -35,7 +38,7 @@ void UInventoryComponent::ServerRecalculateInventory_Implementation()
 	BonusCritChance = 0;
 	for (int i = 0; i < MaxItems; i++)
 	{
-		if (!Items[i].SlotUsed) continue;
+		if (!Items[i].SlotUsed || !IsValid(Items[i].ItemActor)) continue;
 		BonusArmor += Items[i].ItemActor->ItemInfo.Armor;
 		BonusMaxHP += Items[i].ItemActor->ItemInfo.HP;
 		BonusMaxMana += Items[i].ItemActor->ItemInfo.Mana;
@@ -64,9 +67,29 @@ void UInventoryComponent::BeginPlay()
 void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	UpdateItems();
+	if (GetOwner()->GetRemoteRole() == ROLE_AutonomousProxy)
+	{
+		UpdateItems();
+	}
+
 
 	// ...
+}
+void UInventoryComponent::SetItemSlot(int index, AItemBase* item)
+{
+	if (!IsValid(item)) return;
+	Items[index].ItemActor = item;
+	ServerSetItemSlot(index, item);
+	
+}
+void UInventoryComponent::ServerSetItemSlot_Implementation(int index, AItemBase* item)
+{
+	if (!Items[index].SlotUsed)
+	{
+		Items[index].SlotUsed = true;
+
+	}
+
 }
 
 int32 UInventoryComponent::GiveUnusedItemSlot()
@@ -75,11 +98,11 @@ int32 UInventoryComponent::GiveUnusedItemSlot()
 	{
 		if (!Items[i].SlotUsed)
 		{
-			Items[i].SlotUsed = true;
 			return i;
 		}
 	}
 	return -1;
+
 }
 
 void UInventoryComponent::UseItem(int32 index)
@@ -103,6 +126,7 @@ void UInventoryComponent::ServerUpdateItems_Implementation()
 {
 	for (int32 i = 0; i < Items.Num(); i++)
 	{
+		if (!IsValid(Items[i].ItemActor)) return;
 		if (Items[i].SlotUsed && Items[i].ItemActor->ItemInfo.Consumed)
 		{
 			DestroyItem(i);
@@ -117,7 +141,7 @@ void UInventoryComponent::DestroyItem(int32 Index)
 void UInventoryComponent::ServerDestroyItem_Implementation(int32 Index)
 {
 	Items[Index].SlotUsed = false;
-	Items[Index].ItemActor = NULL;
+	Items[Index].ItemActor = nullptr;
 }
 
 void UInventoryComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

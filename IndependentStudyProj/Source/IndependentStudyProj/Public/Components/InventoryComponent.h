@@ -45,6 +45,12 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerRecalculateInventory();
 
+	UFUNCTION(BlueprintCallable)
+	void SetItemSlot(int index, AItemBase* item);
+
+	UFUNCTION(Server, Reliable)
+	void ServerSetItemSlot(int index, AItemBase* item);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusMaxHP;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
@@ -75,7 +81,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(BlueprintCallable)
+
+UFUNCTION(BlueprintCallable)
 int32 GiveUnusedItemSlot();
 
 UFUNCTION(BlueprintCallable)
@@ -98,4 +105,6 @@ void ServerDestroyItem(int32 Index);
 
 virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+private:
+	AActor* character;
 };
