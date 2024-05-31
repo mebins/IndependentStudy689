@@ -45,7 +45,7 @@ public:
 	float SkillPoints;
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Level")
 	int32 Level;
-	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Level")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Category = "Level")
 	int32 MaxLevel;
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Level")
 	float XP;
@@ -61,6 +61,22 @@ public:
 	float Mana;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Category ="XP")
 	TArray<float> MaxXPByLevel;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Armor")
+	float Armor;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Damage")
+	float Damage;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Damage")
+	float CritChance;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Damage")
+	float AttackSpeed;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Damage")
+	int32 AttackRange;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Movement")
+	int32 MovementSpeed;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Armor")
+	float HealthRegen;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Armor")
+	float ManaRegen;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -84,8 +100,12 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	void UpdateByLevel(int32 level);
+
+
 private:
 	AActor* character;
+
 	UFUNCTION(Server, Reliable)
 	void ComponentInitialize();
 };

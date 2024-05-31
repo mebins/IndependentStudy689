@@ -62,7 +62,7 @@ class INDEPENDENTSTUDYPROJ_API AItemBase : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AItemBase();
-	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated);
 	FItem ItemInfo;
 
 protected:
@@ -78,4 +78,5 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
     void CastItem();
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

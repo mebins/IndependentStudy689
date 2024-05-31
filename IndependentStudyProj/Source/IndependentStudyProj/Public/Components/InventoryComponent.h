@@ -34,33 +34,36 @@ class INDEPENDENTSTUDYPROJ_API UInventoryComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UInventoryComponent();
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	int32 Gold = 0; 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	TArray<FItemSlot> Items;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	int32 MaxItems = 6; 
 	UFUNCTION(BlueprintCallable)
 	void RecalculateInventory();
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UFUNCTION(Server, Reliable)
+	void ServerRecalculateInventory();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusMaxHP;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusMaxMana;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusArmor; 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusDamage;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusMovementSpeed;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusAttackSpeed; 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusAttackRange;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusHealthRegen;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusManaRegen;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusCritChance;
 
 
@@ -78,8 +81,21 @@ int32 GiveUnusedItemSlot();
 UFUNCTION(BlueprintCallable)
 void UseItem(int32 index);
 
+UFUNCTION(Server, Reliable)
+void ServerUseItem(int32 Index);
+
 UFUNCTION(BlueprintCallable)
 void UpdateItems();
+
+UFUNCTION(Server, Reliable)
+void ServerUpdateItems();
+
 UFUNCTION(BlueprintCallable)
 void DestroyItem(int32 Index);
+
+UFUNCTION(Server, Reliable)
+void ServerDestroyItem(int32 Index);
+
+virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 };

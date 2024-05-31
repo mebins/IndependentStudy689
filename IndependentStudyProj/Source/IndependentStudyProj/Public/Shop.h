@@ -25,15 +25,27 @@ protected:
 
 public:	
 	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Items")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Category = "Items")
 	TArray<TSubclassOf<AItemBase>> ShopItems;
 	
+	UFUNCTION(Server, Reliable)
+	void ServerGetItem(int index);
+	UFUNCTION(Server, Reliable)
+	void ServerBuyItem(AItemBase* item);
+
 	virtual void GetItem(int index);
 	virtual void BuyItem(AItemBase* item);
+	
 	UFUNCTION(BlueprintCallable)
-	virtual void SellItem(AItemBase* item);
+     void SellItem(AItemBase* item);
+
+	UFUNCTION(Server, Reliable)
+	 void ServerSellItem(AItemBase* item);
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	
 	

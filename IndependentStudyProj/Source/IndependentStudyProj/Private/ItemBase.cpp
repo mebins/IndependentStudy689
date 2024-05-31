@@ -2,6 +2,7 @@
 
 
 #include "ItemBase.h"
+#include <Net/UnrealNetwork.h>
 
 
 // Sets default values
@@ -28,6 +29,14 @@ void AItemBase::Tick(float DeltaTime)
 FName AItemBase::GetFriendlyName()
 {	
 	return ItemInfo.ItemName;
+}
+
+void AItemBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	// Add properties to replicated for the derived class
+	DOREPLIFETIME(AItemBase, ItemInfo);
 }
 
 
