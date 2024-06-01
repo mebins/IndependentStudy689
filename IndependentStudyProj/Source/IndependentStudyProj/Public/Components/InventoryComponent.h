@@ -47,6 +47,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetItemSlot(int index, AItemBase* item);
+	UFUNCTION(BlueprintCallable)
+	void SpawnItem(int index, UClass* Item);
+
+	UFUNCTION(Server,Reliable)
+	void ServerSpawnitem(int index, UClass* item);
 
 	UFUNCTION(Server, Reliable)
 	void ServerSetItemSlot(int index, AItemBase* item);

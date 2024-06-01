@@ -3,7 +3,7 @@
 
 #include "Components/InventoryComponent.h"
 #include <Net/UnrealNetwork.h>
-
+#include "Engine/World.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -82,12 +82,24 @@ void UInventoryComponent::SetItemSlot(int index, AItemBase* item)
 	ServerSetItemSlot(index, item);
 	
 }
+void UInventoryComponent::SpawnItem(int index, UClass* Item)
+{
+	ServerSpawnitem(index, Item);
+}
+void UInventoryComponent::ServerSpawnitem_Implementation(int index, UClass* item)
+{
+	FActorSpawnParameters SpawnInfo;
+	SpawnInfo.Owner = GetOwner();
+   AItemBase* spawned =  UActorComponent::GetWorld()->SpawnActor<AItemBase>(FVector(), FRotator(), SpawnInfo);
+	ServerSetItemSlot(index, spawned);
+}
 void UInventoryComponent::ServerSetItemSlot_Implementation(int index, AItemBase* item)
 {
+
 	if (!Items[index].SlotUsed)
 	{
 		Items[index].SlotUsed = true;
-
+		Items[index].ItemActor = item;
 	}
 
 }
