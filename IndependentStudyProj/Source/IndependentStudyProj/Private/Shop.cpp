@@ -3,6 +3,7 @@
 
 #include "Shop.h"
 #include <IndependentStudyProj/IndependentStudyProjPlayerController.h>
+#include <Net/UnrealNetwork.h>
 
 
 // Sets default values
@@ -10,7 +11,7 @@ AShop::AShop()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	SetReplicates(true);
+	bReplicates = true;
 
 }
 
@@ -28,16 +29,6 @@ void AShop::BeginPlay()
 	
 }
 
-void AShop::ServerGetItem_Implementation(int index)
-{
-	GetItem(index);
-}
-
-void AShop::ServerBuyItem_Implementation(AItemBase* item)
-{
-	BuyItem(item);
-}
-
 void AShop::GetItem(int index)
 {
 }
@@ -50,10 +41,6 @@ void AShop::SellItem(AItemBase* item)
 {
 }
 
-void AShop::ServerSellItem_Implementation(AItemBase* Item)
-{
-	SellItem(Item);
-}
 
 // Called every frame
 void AShop::Tick(float DeltaTime)
@@ -65,5 +52,6 @@ void AShop::Tick(float DeltaTime)
 void AShop::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AShop, ShopItems);
 }
 

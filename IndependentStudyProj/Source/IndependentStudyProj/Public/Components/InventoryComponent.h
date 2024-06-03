@@ -40,22 +40,6 @@ public:
 	TArray<FItemSlot> Items;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	int32 MaxItems = 6; 
-	UFUNCTION(BlueprintCallable)
-	void RecalculateInventory();
-	UFUNCTION(Server, Reliable)
-	void ServerRecalculateInventory();
-
-	UFUNCTION(BlueprintCallable)
-	void SetItemSlot(int index, AItemBase* item);
-	UFUNCTION(BlueprintCallable)
-	void SpawnItem(int index, UClass* Item);
-
-	UFUNCTION(Server,Reliable)
-	void ServerSpawnitem(int index, UClass* item);
-
-	UFUNCTION(Server, Reliable)
-	void ServerSetItemSlot(int index, AItemBase* item);
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 	float BonusMaxHP;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
@@ -87,26 +71,14 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+
 UFUNCTION(BlueprintCallable)
 int32 GiveUnusedItemSlot();
 
 UFUNCTION(BlueprintCallable)
-void UseItem(int32 index);
+void RecalculateInventory();
 
-UFUNCTION(Server, Reliable)
-void ServerUseItem(int32 Index);
 
-UFUNCTION(BlueprintCallable)
-void UpdateItems();
-
-UFUNCTION(Server, Reliable)
-void ServerUpdateItems();
-
-UFUNCTION(BlueprintCallable)
-void DestroyItem(int32 Index);
-
-UFUNCTION(Server, Reliable)
-void ServerDestroyItem(int32 Index);
 
 virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

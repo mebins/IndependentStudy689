@@ -28,10 +28,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Category = "Items")
 	TArray<TSubclassOf<AItemBase>> ShopItems;
 	
-	UFUNCTION(Server, Reliable)
-	void ServerGetItem(int index);
-	UFUNCTION(Server, Reliable)
-	void ServerBuyItem(AItemBase* item);
 
 	virtual void GetItem(int index);
 	virtual void BuyItem(AItemBase* item);
@@ -39,8 +35,6 @@ public:
 	UFUNCTION(BlueprintCallable)
      void SellItem(AItemBase* item);
 
-	UFUNCTION(Server, Reliable)
-	 void ServerSellItem(AItemBase* item);
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
