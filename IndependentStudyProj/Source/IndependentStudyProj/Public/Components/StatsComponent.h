@@ -100,7 +100,8 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	void UpdateByLevel(int32 level);
+	UFUNCTION(BlueprintCallable)
+	void UpdateByLevel(int32 NewLevel);
 
 
 private:

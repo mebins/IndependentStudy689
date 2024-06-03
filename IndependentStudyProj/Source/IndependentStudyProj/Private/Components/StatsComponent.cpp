@@ -113,12 +113,12 @@ void UStatsComponent::ComponentInitialize_Implementation()
 
 }
 
-void UStatsComponent::UpdateByLevel(int32 level)
+void UStatsComponent::UpdateByLevel(int32 NewLevel)
 {
-	verify(level > 0 && level <= MaxLevel);
-	MaxXP = MaxXPByLevel[level - 1];
+	verify(NewLevel > 0 && NewLevel <= MaxLevel);
+	MaxXP = MaxXPByLevel[NewLevel - 1];
 	MaxLevel = 18;
-	FCharacterStats stat = StatsByLevel[level - 1];
+	FCharacterStats stat = StatsByLevel[NewLevel - 1];
 	MaxHP = stat.MaxHp;
 	MaxMana = stat.MaxMana;
 	Armor = stat.Armor;
