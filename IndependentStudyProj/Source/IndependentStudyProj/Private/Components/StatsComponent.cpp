@@ -24,7 +24,6 @@ void UStatsComponent::BeginPlay()
 
 	// ...
 	ComponentInitialize();
-	
 }
 
 
