@@ -77,6 +77,7 @@ public:
 	float HealthRegen;
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Armor")
 	float ManaRegen;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -97,6 +98,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void LevelUp();
+
+	UFUNCTION(BlueprintCallable)
+	bool IsAlive();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

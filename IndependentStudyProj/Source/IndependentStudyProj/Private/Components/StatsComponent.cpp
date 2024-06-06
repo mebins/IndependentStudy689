@@ -74,6 +74,11 @@ void UStatsComponent::LevelUp()
 	ServerLevelUp();
 }
 
+bool UStatsComponent::IsAlive()
+{
+	return HP > 0;
+}
+
 void UStatsComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	// Call the Super
@@ -114,9 +119,9 @@ void UStatsComponent::ComponentInitialize_Implementation()
 
 void UStatsComponent::UpdateByLevel(int32 NewLevel)
 {
+	MaxLevel = 18;
 	verify(NewLevel > 0 && NewLevel <= MaxLevel);
 	MaxXP = MaxXPByLevel[NewLevel - 1];
-	MaxLevel = 18;
 	FCharacterStats stat = StatsByLevel[NewLevel - 1];
 	MaxHP = stat.MaxHp;
 	MaxMana = stat.MaxMana;
