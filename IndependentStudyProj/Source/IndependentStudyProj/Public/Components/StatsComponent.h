@@ -99,7 +99,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LevelUp();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 	bool IsAlive();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
