@@ -77,7 +77,10 @@ void UInventoryComponent::ServerRecalculateInventory_Implementation()
 
 
 
-
+void UInventoryComponent::AddGold(int32 GoldAmount)
+{
+	Gold += GoldAmount;
+}
 int32 UInventoryComponent::GiveUnusedItemSlot()
 {
 	for (int32 i = 0; i < Items.Num(); i++)

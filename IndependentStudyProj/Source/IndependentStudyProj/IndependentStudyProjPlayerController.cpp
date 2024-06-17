@@ -81,12 +81,14 @@ void AIndependentStudyProjPlayerController::OnSetDestinationTriggered()
 	else
 	{
 		bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+		
 	}
 
 	// If we hit a surface, cache the location
 	if (bHitSuccessful)
 	{
 		CachedDestination = Hit.Location;
+		OnMoveClick(Hit.GetActor());
 	}
 	
 	// Move towards mouse pointer or touch

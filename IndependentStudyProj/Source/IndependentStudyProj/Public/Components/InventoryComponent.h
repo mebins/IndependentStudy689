@@ -71,8 +71,10 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable)
+	void AddGold(int32 GoldAmount);
 
-UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 int32 GiveUnusedItemSlot();
 
 UFUNCTION(BlueprintCallable)
