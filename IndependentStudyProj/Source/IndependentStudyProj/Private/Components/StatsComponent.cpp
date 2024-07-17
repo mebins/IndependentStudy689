@@ -120,19 +120,21 @@ void UStatsComponent::ComponentInitialize_Implementation()
 void UStatsComponent::UpdateByLevel(int32 NewLevel)
 {
 	MaxLevel = 18;
-	verify(NewLevel > 0 && NewLevel <= MaxLevel);
-	MaxXP = MaxXPByLevel[NewLevel - 1];
-	FCharacterStats stat = StatsByLevel[NewLevel - 1];
-	MaxHP = stat.MaxHp;
-	MaxMana = stat.MaxMana;
-	Armor = stat.Armor;
-	Damage = stat.Damage;
-	CritChance = stat.CritChance;
-	AttackSpeed = stat.AttackSpeed;
-	AttackRange = stat.AttackRange;
-	MovementSpeed = stat.MovementSpeed;
-	HealthRegen = stat.HealthRegen;
-	ManaRegen = stat.ManaRegen;
-
+	if (NewLevel > 0 && NewLevel <= MaxLevel)
+	{
+		MaxXP = MaxXPByLevel[NewLevel - 1];
+		FCharacterStats stat = StatsByLevel[NewLevel - 1];
+		MaxHP = stat.MaxHp;
+		MaxMana = stat.MaxMana;
+		Armor = stat.Armor;
+		Damage = stat.Damage;
+		CritChance = stat.CritChance;
+		AttackSpeed = stat.AttackSpeed;
+		AttackRange = stat.AttackRange;
+		MovementSpeed = stat.MovementSpeed;
+		HealthRegen = stat.HealthRegen;
+		ManaRegen = stat.ManaRegen;
+		Level = NewLevel;
+	}
 }
 
