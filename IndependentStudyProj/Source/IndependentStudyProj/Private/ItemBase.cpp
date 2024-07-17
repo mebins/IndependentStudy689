@@ -25,7 +25,10 @@ void AItemBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
+UTexture2D* AItemBase::GetItemIcon()
+{
+	return ItemInfo.ItemIcon;
+}
 FName AItemBase::GetFriendlyName()
 {	
 	return ItemInfo.ItemName;

@@ -50,6 +50,8 @@ struct FItem
 	float ResaleMultiplier = 1.0;
 	UPROPERTY(BlueprintReadWrite, Category = "Info")
 	FString ItemDescription = "a good item.";
+	UPROPERTY(BlueprintReadWrite, Category = "Icon")
+	UTexture2D* ItemIcon;
 	UPROPERTY(BlueprintReadWrite, Category = "Info")
 	FString ItemStats = "HP: 0 \n Mana: 0 \n Armor = 0 \n Damage = 0 \n MovementSpeed = 0 \n AttackSpeed = 0 \n AttackRange = 0 \n CritChance = 0";
 };
@@ -72,6 +74,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable)
+	UTexture2D* GetItemIcon();
 
 	UFUNCTION(BlueprintCallable)
 	FName GetFriendlyName();
