@@ -76,6 +76,14 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 int32 GiveUnusedItemSlot();
+UFUNCTION(BlueprintCallable)
+FItemSlot GetItemSlot(int32 index);
+
+UFUNCTION(BlueprintCallable)
+TArray<FItem> GetItemInfos();
+
+UFUNCTION(BlueprintCallable)
+void SetItemSlot(int32 index, bool SlotUsed, FName FriendlyName, AItemBase* item);
 
 UFUNCTION(BlueprintCallable)
 void RecalculateInventory();

@@ -93,7 +93,32 @@ int32 UInventoryComponent::GiveUnusedItemSlot()
 	return -1;
 
 }
-
+FItemSlot UInventoryComponent::GetItemSlot(int32 index)
+{
+	return Items[index];
+}
+TArray<FItem> UInventoryComponent::GetItemInfos()
+{
+	TArray<FItem> iteminfos;
+	for (int32 i = 0; i < Items.Num(); i++) 
+	{
+			if (Items[i].ItemActor)
+			{
+				iteminfos.EmplaceAt(i, Items[i].ItemActor->ItemInfo);
+			}
+			else
+			{
+				iteminfos.EmplaceAt(i, FItem());
+			}
+	}
+	return iteminfos;;
+}
+void UInventoryComponent::SetItemSlot(int32 index, bool SlotUsed, FName FriendlyName, AItemBase* item)
+{
+	Items[index].SlotUsed = SlotUsed;
+	Items[index].FriendlyName = FriendlyName;
+	Items[index].ItemActor = item;
+}
 void UInventoryComponent::RecalculateInventory()
 {
 	BonusArmor = 0;

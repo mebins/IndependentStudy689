@@ -77,7 +77,7 @@ public:
 	float HealthRegen;
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Armor")
 	float ManaRegen;
-
+	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
